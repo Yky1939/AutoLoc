@@ -1,12 +1,12 @@
 package tn.esprit.autoloc_api.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "client")
@@ -14,23 +14,27 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 
 
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idClient;
+     Long idClient;
     @Column(nullable = false, length = 20)
-    private String nom;
+     String nom;
     @Column(nullable = false, length = 20)
-    private String prenom;
+     String prenom;
     @Column(nullable = false, unique = true, length = 20)
-    private String email;
+     String email;
     @Column(nullable = false, unique = true, length = 20)
-    private String telephone;
+     String telephone;
     @Column(nullable = false, unique = true, length = 20)
-    private String numPermis;
+     String numPermis;
     @Column(nullable = false, length = 20)
-    private Date dateInscription;
+     Date dateInscription;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = CascadeType.PERSIST)
+    List<Reservation> reservations = new ArrayList<Reservation>();
 }

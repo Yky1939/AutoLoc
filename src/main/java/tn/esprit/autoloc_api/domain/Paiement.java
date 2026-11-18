@@ -2,10 +2,8 @@ package tn.esprit.autoloc_api.domain;
 
 import java.util.Date;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table(name = "paiement")
@@ -13,19 +11,23 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 
 
 public class Paiement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPaiement;
+    Long idPaiement;
     @Column(nullable = false)
-    private Long montant;
+    Long montant;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private ModePaiement modePaiement;
+    ModePaiement modePaiement;
     @Column(nullable = false)
-    private Date datePaiement;
+    Date datePaiement;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    Contrat contrat;
 }
 
 

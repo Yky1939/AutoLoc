@@ -2,10 +2,8 @@ package tn.esprit.autoloc_api.domain;
 
 import java.util.Date;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table(name = "maintenance")
@@ -13,17 +11,23 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 
 public class Maintenance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idMaintenance;
+     Long idMaintenance;
     @Column(nullable = false)
-    private Date dateDebut;
+     Date dateDebut;
     @Column(nullable = false)
-    private Date dateFin;
+     Date dateFin;
     @Column(nullable = false)
-    private String Description;
+     String Description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    Vehicule vehicule;
+
+
 }
 
 

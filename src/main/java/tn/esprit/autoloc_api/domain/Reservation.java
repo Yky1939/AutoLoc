@@ -2,10 +2,9 @@ package tn.esprit.autoloc_api.domain;
 
 import java.util.Date;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
 
 @Entity
 @Table(name = "reservation")
@@ -13,22 +12,34 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+@FieldDefaults(level = AccessLevel.PRIVATE)
 
 
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idReservation;
+     Long idReservation;
     @Column(nullable = false)
-    private Date dateDebut;
+     Date dateDebut;
     @Column(nullable = false)
-    private Date dateFin;
+     Date dateFin;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private StatutReservation statut;
+     StatutReservation statut;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    Vehicule vehicule;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    Client client;
+
+    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    Contrat contrat;
 
 }
+
+
 
 
 

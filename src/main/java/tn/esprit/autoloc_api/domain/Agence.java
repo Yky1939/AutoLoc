@@ -1,9 +1,10 @@
 package tn.esprit.autoloc_api.domain;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "agence")
@@ -11,17 +12,28 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 
 public class Agence {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAgence;
+     Long idAgence;
     @Column(nullable = false, length = 20)
-    private String nom;
+     String nom;
     @Column(nullable = false, length = 20)
-    private String ville;
+     String ville;
     @Column(nullable = false, length = 20)
-    private String adresse;
+     String adresse;
     @Column(nullable = false, length = 20)
-    private String telephone;
+     String telephone;
+
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
+    List<Employe> employes = new ArrayList<Employe>();
+
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
+    List<Vehicule> vehicules = new ArrayList<Vehicule>();
+
+
 }
+
+

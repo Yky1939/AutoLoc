@@ -1,12 +1,13 @@
 package tn.esprit.autoloc_api.domain;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table(name = "contrat")
@@ -14,16 +15,22 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
+@FieldDefaults(level = AccessLevel.PRIVATE)
 
 public class Contrat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idContrat;
+     Long idContrat;
     @Column(nullable = false)
-    private Date dateSignature;
+     Date dateSignature;
     @Column(nullable = false)
-    private Long montantTotal;
+     Long montantTotal;
     @Column(nullable = false)
-    private Boolean valide;
+     Boolean valide;
+
+    @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    List<Paiement> paiements = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY)
+    Reservation reservation;
 }
